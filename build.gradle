@@ -7,7 +7,11 @@ plugins {
 
 description = "Scribe renders is templated render system for e-mails"
 group = "com.kryptnostic"
-ext.projectName = "scribe"
+
+ext.projectName = 'scribe'
+ext.scmUrl = 'scm:git:https://github.com/dataloom/scribe.git'
+ext.connectionUrl = 'scm:git:https://github.com/dataloom/scribe.git'
+ext.developerConnectionUrl = 'scm:git:https://github.com/dataloom/scribe.git'
 
 apply from: "https://raw.githubusercontent.com/kryptnostic/gradles/master/kryptnostic.gradle"
 
