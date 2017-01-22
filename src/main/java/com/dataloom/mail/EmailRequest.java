@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -11,6 +12,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 
 public class EmailRequest {
+    protected static final String    FROM_FIELD = "from";
+    protected static final String    TO_FIELD   = "to";
+    protected static final String    CC_FIELD   = "cc";
+    protected static final String    BCC_FIELD  = "bcc";
     private final Optional<String>   from;
     private final String[]           to;
     private final Optional<String[]> cc;
@@ -37,18 +42,22 @@ public class EmailRequest {
         Preconditions.checkState( this.to.length > 0 );
     }
 
+    @JsonProperty( FROM_FIELD )
     public Optional<String> getFrom() {
         return from;
     }
 
+    @JsonProperty( TO_FIELD )
     public String[] getTo() {
         return to;
     }
 
+    @JsonProperty( CC_FIELD )
     public Optional<String[]> getCc() {
         return cc;
     }
 
+    @JsonProperty( BCC_FIELD )
     public Optional<String[]> getBcc() {
         return bcc;
     }

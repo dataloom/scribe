@@ -2,53 +2,66 @@ package com.dataloom.mail;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 
 import jodd.mail.att.ByteArrayAttachment;
 
 public class RenderableEmailRequest extends EmailRequest {
-    private final Optional<String> subject;
-    private final String           templatePath;
-    private final Optional<Object> templateObjs;
+    private static final String                   TEMPLATE_PATH_FIELD    = "templatePath";
+    private static final String                   SUBJECT_FIELD          = "subject";
+    private static final String                   TEMPLATE_OBJS_FIELD    = "templateObjs";
+    private static final String                   ATTACHMENTS_FIELD      = "attachments";
+    private static final String                   ATTACHMENT_PATHS_FIELD = "attachmentPaths";
+    private final Optional<String>                subject;
+    private final String                          templatePath;
+    private final Optional<Object>                templateObjs;
     private final Optional<ByteArrayAttachment[]> byteArrayAttachment;
-    private final Optional<String[]> attachmentPath;
+    private final Optional<String[]>              attachmentPaths;
 
+    @JsonCreator
     public RenderableEmailRequest(
-            Optional<String> from,
-            String[] to,
-            Optional<String[]> cc,
-            Optional<String[]> bcc,
-            String templatePath,
-            Optional<String> subject,
-            Optional<Object> templateObjs,
-            Optional<ByteArrayAttachment[]> byteArrayAttachment,
-            Optional<String[]> attachmentPath ) {
+            @JsonProperty( FROM_FIELD ) Optional<String> from,
+            @JsonProperty( TO_FIELD ) String[] to,
+            @JsonProperty( CC_FIELD ) Optional<String[]> cc,
+            @JsonProperty( BCC_FIELD ) Optional<String[]> bcc,
+            @JsonProperty( TEMPLATE_PATH_FIELD ) String templatePath,
+            @JsonProperty( SUBJECT_FIELD ) Optional<String> subject,
+            @JsonProperty( TEMPLATE_OBJS_FIELD ) Optional<Object> templateObjs,
+            @JsonProperty( ATTACHMENTS_FIELD ) Optional<ByteArrayAttachment[]> byteArrayAttachment,
+            @JsonProperty( ATTACHMENT_PATHS_FIELD ) Optional<String[]> attachmentPaths ) {
         super( from, to, cc, bcc );
         this.subject = subject;
         this.templatePath = templatePath;
         Preconditions.checkArgument( StringUtils.isNotBlank( this.templatePath ) );
         this.templateObjs = templateObjs;
         this.byteArrayAttachment = byteArrayAttachment;
-        this.attachmentPath = attachmentPath;
+        this.attachmentPaths = attachmentPaths;
     }
 
+    @JsonProperty( SUBJECT_FIELD )
     public Optional<String> getSubject() {
         return subject;
     }
 
+    @JsonProperty( TEMPLATE_PATH_FIELD )
     public String getTemplatePath() {
         return templatePath;
     }
 
+    @JsonProperty( TEMPLATE_OBJS_FIELD )
     public Optional<Object> getTemplateObjs() {
         return templateObjs;
     }
-    
+
+    @JsonProperty( ATTACHMENT_PATHS_FIELD )
     public Optional<String[]> getAttachmentPaths() {
-        return attachmentPath;
+        return attachmentPaths;
     }
-    
+
+    @JsonProperty( ATTACHMENTS_FIELD )
     public Optional<ByteArrayAttachment[]> getByteArrayAttachment() {
         return byteArrayAttachment;
     }
@@ -69,7 +82,7 @@ public class RenderableEmailRequest extends EmailRequest {
                 Optional.of( subject ),
                 templateObjs,
                 byteArrayAttachment,
-                attachmentPaths);
+                attachmentPaths );
     }
 
     @Override
