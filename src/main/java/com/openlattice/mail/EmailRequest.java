@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.openlattice.util.SingletonArrays;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.lang3.StringUtils;
 
@@ -49,7 +50,8 @@ public class EmailRequest {
 
         this.from = Preconditions.checkNotNull( from );
         this.to = ImmutableList.copyOf( Arrays.asList( Preconditions.checkNotNull( to ) ).stream()
-                .filter( input -> StringUtils.isNotBlank( input ) ).collect( Collectors.toList() ) ).toArray( new String[ 0 ] );
+                .filter( StringUtils::isNotBlank ).collect( Collectors.toList() ) ).toArray(
+                SingletonArrays.EMPTY_STRINGS );
         this.cc = Preconditions.checkNotNull( cc );
         this.bcc = Preconditions.checkNotNull( bcc );
         Preconditions.checkState( this.to.length > 0 );
